@@ -14,7 +14,20 @@ app.use(bodyParser.json());
 
 // set up post route
 app.post('/todos', (req, res) => {
+  // // body gets stored by body-parser, post on postman will print
+  // console.log(req.body);
 
+  var todo = new Todo({
+    // store what is being posted in postman
+    text: req.body.text
+  })
+  
+  todo.save().then((doc) => {
+    // send back todo
+    res.send(doc);
+  }, (e) => {
+    res.status(400).send(e);
+  })
 })
 
 // GET /todos/1253sdffasf
