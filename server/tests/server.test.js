@@ -19,6 +19,7 @@ beforeEach((done) => {
 });
 
 describe('POST /todos', () => {
+  // async test, have to specify done
   it('should create a new todo', done => {
     var text = 'Do a little dance';
 
@@ -26,6 +27,8 @@ describe('POST /todos', () => {
       .post('/todos')
       // supertest converts object to JSON
       .send({text})
+
+      // make assertions about req
       .expect(200)
       .expect((res) => {
         expect(res.body.text).toBe(text);
@@ -46,6 +49,23 @@ describe('POST /todos', () => {
           done();
         })
         .catch(e => done(e));
+      });
+  })
+
+  it('should not create todo with invalid body data', done => {
+    request(app)
+      .post('/todos')
+      .send({})
+      .expect(400)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        Todo.find().then((todos) => {
+          expect(todos.length).toBe(0);
+          done();
+        })
+        .catch((e) => done(e));
       });
   })
 });
