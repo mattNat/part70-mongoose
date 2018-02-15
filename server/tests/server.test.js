@@ -1,6 +1,12 @@
 const expect = require('expect');
 const request = require('supertest');
 
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const chaiSpies = require('chai-spies');
+const mongoose = require('mongoose');
+// const expect = chai.expect;
+
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
 
@@ -32,8 +38,11 @@ describe('POST /todos', () => {
         
         // request to db to verufy our todo was added
         Todo.find().then((todos) => {
+          console.log(todos);
+          
+          // expect(todos.length).to.have.length.of.at.least(1);
           expect(todos.length).toBe(1);
-          expect(todos[0].text.toBe(text));
+          expect(todos[0].text).toBe(text);
           done();
         })
         .catch(e => done(e));
