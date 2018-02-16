@@ -10,12 +10,19 @@ const mongoose = require('mongoose');
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
 
+// dummy todos
+const todos = [{
+  text: 'First test todo'
+}, {
+  text: 'Second test todo'
+}];
+
 // testing lifecycle method
 // done arg only move to test case when we call done
 beforeEach((done) => {
   Todo.remove({}).then(() => {
-    done();
-  })
+    Todo.insertMany(todos);
+  }).then(() => done());
 });
 
 describe('POST /todos', () => {
@@ -39,8 +46,8 @@ describe('POST /todos', () => {
           return done(err);
         }
         
-        // request to db to verufy our todo was added
-        Todo.find().then((todos) => {
+        // request to db to verify our todo was added
+        Todo.find({text}).then((todos) => {
           console.log(todos);
           
           // expect(todos.length).to.have.length.of.at.least(1);
@@ -62,10 +69,22 @@ describe('POST /todos', () => {
           return done(err);
         }
         Todo.find().then((todos) => {
-          expect(todos.length).toBe(0);
+          expect(todos.length).toBe(2);
           done();
         })
         .catch((e) => done(e));
       });
-  })
+  });
+});
+
+describe('GET /todos', () => {
+  it('should get all todos', (done) => {
+    request(app)
+      .get('/todos')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.todos.length).toBe(2);
+      })
+      .end(done);
+  });
 });
