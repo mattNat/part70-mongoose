@@ -1,3 +1,5 @@
+'use strict';
+
 const expect = require('expect');
 const request = require('supertest');
 const {ObjectID} = require('mongodb');
@@ -16,7 +18,7 @@ const todos = [{
   _id: new ObjectID(),
   text: 'First test todo'
 }, {
-  _id: new ObjectID(),  
+  // _id: new ObjectID(),  
   text: 'Second test todo'
 }];
 
@@ -98,6 +100,10 @@ describe('GET /todos', () => {
 // describe('GET /todos/:id', () => {
 //   it('should return todo doc'), (done) => {
 //     request(app)
+//       // .then(res => {
+//       //   console.log('res is', res);
+        
+//       // })
 //       .get(`/todos/${todos[0]._id.toHexString()}`)
 //       .expect(200)
 //       .expect(res => {
