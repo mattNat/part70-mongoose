@@ -1,5 +1,6 @@
 const expect = require('expect');
 const request = require('supertest');
+const {ObjectID} = require('mongodb');
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -12,10 +13,15 @@ const {Todo} = require('./../models/todo');
 
 // dummy todos
 const todos = [{
+  _id: new ObjectID(),
   text: 'First test todo'
 }, {
+  _id: new ObjectID(),  
   text: 'Second test todo'
 }];
+
+// console.log('Length of todos: ', todos.length);
+
 
 // testing lifecycle method
 // done arg only move to test case when we call done
@@ -48,7 +54,7 @@ describe('POST /todos', () => {
         
         // request to db to verify our todo was added
         Todo.find({text}).then((todos) => {
-          console.log(todos);
+          // console.log(todos);
           
           // expect(todos.length).to.have.length.of.at.least(1);
           expect(todos.length).toBe(1);
@@ -88,3 +94,15 @@ describe('GET /todos', () => {
       .end(done);
   });
 });
+
+// describe('GET /todos/:id', () => {
+//   it('should return todo doc'), (done) => {
+//     request(app)
+//       .get(`/todos/${todos[0]._id.toHexString()}`)
+//       .expect(200)
+//       .expect(res => {
+//         expect(res.body.todo.text).toBe(todos[0].text);
+//       })
+//       .end(done);
+//   }
+// });
