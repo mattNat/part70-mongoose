@@ -1,8 +1,12 @@
-const {ObjectID} = require('mongodb');
+// const {ObjectID} = require('mongodb');
 const {mongoose} = require('./../server/db/mongoose');
-const {Todo} = require('./../server/models/todo');
+mongoose.Promise = global.Promise;
 
-// var id = '5a8672b2d763f36274a1896b11';
+const {Todo} = require('./../server/models/todo');
+const {User} = require('./../server/models/user');
+
+
+// var id = '000000000000000000000000';
 
 // //ObjectId.isValid
 // if (!ObjectID.isValid(id)) {
@@ -31,4 +35,12 @@ const {Todo} = require('./../server/models/todo');
 // }).catch(e => console.log(e));
 
 // query the user's collection
-User.findById
+var id = '111111111111111111111101';
+User.findById(id)
+  .then(user => {
+    if (!user) {
+      return console.log('User not found');
+    }
+    // console.log('User is', user);
+    console.log(JSON.stringify(user, undefined, 2));
+  }).catch(e => console.log(e));
