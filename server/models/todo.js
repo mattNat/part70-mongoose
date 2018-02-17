@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-var Todo = mongoose.model('Todo', {
+var todoSchema = new mongoose.Schema({
   text: {
     type: String,
     required: true,
@@ -20,4 +20,4 @@ var Todo = mongoose.model('Todo', {
 });
 
 // export model otherwise we can't use it!
-module.exports = {Todo};
+module.exports = mongoose.model('Todo', todoSchema);

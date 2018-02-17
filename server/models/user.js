@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
-var User = mongoose.model('User', {
+var userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -14,4 +15,4 @@ var User = mongoose.model('User', {
   }
 });
 
-module.exports = {User};
+module.exports = mongoose.model('User', userSchema);
