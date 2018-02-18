@@ -18,11 +18,12 @@ const todos = [{
   _id: new ObjectID(),
   text: 'First test todo'
 }, {
-  // _id: new ObjectID(),  
+  _id: new ObjectID(),  
   text: 'Second test todo'
 }];
 
 // console.log('Length of todos: ', todos.length);
+console.log(new ObjectID());
 
 
 // testing lifecycle method
@@ -97,18 +98,35 @@ describe('GET /todos', () => {
   });
 });
 
-// describe('GET /todos/:id', () => {
-//   it('should return todo doc'), (done) => {
-//     request(app)
-//       // .then(res => {
-//       //   console.log('res is', res);
-        
-//       // })
-//       .get(`/todos/${todos[0]._id.toHexString()}`)
-//       .expect(200)
-//       .expect(res => {
-//         expect(res.body.todo.text).toBe(todos[0].text);
-//       })
-//       .end(done);
-//   }
-// });
+// console.log('PRINTING: ', testId, '\nTYPE: ', typeof testId);
+
+describe('GET /todos/:id', () => {
+  it('should return todo doc', (done) => {
+    const testId = `/todos/${todos[0]._id.toHexString()}`;
+    
+    request(app)
+      .get(testId)
+      .expect(200)
+      .expect(res => {
+        expect(res.body.todo.text).toBe(todos[0].text);
+      })
+      .end(done);
+  });
+
+  it('should return a 404 if todo not found', done => {
+    const newId = new ObjectID();
+    
+    request(app)
+      .get(`/todos/${newId.toHexString()}`)
+      .expect(404)
+      .end(done);
+  })
+
+  it('should return 404 for non-object ids', done => {
+    request(app)
+      .get('/todos/123')
+      .expect(404)
+      .end(done);
+  })
+});
+
