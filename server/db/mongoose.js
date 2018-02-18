@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const { PORT, DATABASE_URL } = require('../config');
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://dbuser:dev@ds239648.mlab.com:39648/udemy-node-project' || DATABASE_URL)
+mongoose.connect(DATABASE_URL || process.env.MONGODB_URI || 'mongodb://dbuser:dev@ds239648.mlab.com:39648/udemy-node-project')
   .then(instance => {
     // console.log(instance);
     
