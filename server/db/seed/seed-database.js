@@ -3,8 +3,8 @@ mongoose.Promise = global.Promise;
 
 const { DATABASE_URL } = require('../../config');
 
-const Todo = require('../../models/todo');
-const User = require('../../models/user');
+const Todo = require('../../models/todoDb');
+const User = require('../../models/userDb');
 
 const seedTodos = require('./todos');
 const seedUsers = require('./users');
